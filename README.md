@@ -1,15 +1,15 @@
-**_Tech bits_**
+**Tech bits**
 
 - [] Create a REST API in Go, using mux / gorilla?, with hardcoded data
 - [] Run this locally within Minikube
 - [] Add SQL database
 
-**_User stories_**
+**User stories**
 
 - [] As a user, i need to add a 'Trigger' to the app
 - [] As a user, i need to a add a 'Response' to the app, related to one or more triggers.
 
-**_How to run this project_**
+**How to run this project**
 
 Install Minikube
 
@@ -35,3 +35,15 @@ Set kubernetes cli to use our Minikube cluster
 
 Verify that kubectl can communicate with the cluster
 `kubectl cluster-info`
+
+**Docker**
+`docker build -t trigger-remedy-app .`
+
+`docker run -p 3030:3001 -i --rm --name my-golang-app-run trigger-remedy-app`
+
+`-i` Keep STDIN open even if not attached (--interactive)
+`-p` Publish a container's port(s) to the host (--publish list )
+`--rm` Automatically remove the container when it exits
+`--name` Assign a name to the container
+
+Server will be running on localhost:3030

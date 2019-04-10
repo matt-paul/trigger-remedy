@@ -3,11 +3,16 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
 
 func main() {
+	var PORT string
+	if PORT = os.Getenv("PORT"); PORT == "" {
+		PORT = "3001"
+	}
 	r := mux.NewRouter()
 	// If an incoming request URL matches one of the paths, the corresponding handler is
 	// called, passing (http.ResponseWriter, *http.Request) as parameters
@@ -19,7 +24,7 @@ func main() {
 	// r.HandleFunc("/triggers/{id:[0-9]+}", TriggerHandler)
 	http.Handle("/", r)
 
-	http.ListenAndServe(":80", r)
+	http.ListenAndServe(":3001", r)
 }
 
 // HomeHandler handlers the "/" endpoint
