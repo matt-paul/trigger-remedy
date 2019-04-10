@@ -1,7 +1,7 @@
 **Tech bits**
 
-- [] Create a REST API in Go, using mux / gorilla?, with hardcoded data
-- [] Run this locally within Minikube
+- [x] Create a REST API with hardcoded data
+- [x] Run this locally within Minikube
 - [] Add SQL database
 
 **User stories**
@@ -37,13 +37,47 @@ Verify that kubectl can communicate with the cluster
 `kubectl cluster-info`
 
 **Docker**
-`docker build -t trigger-remedy-app .`
+Build the image, with an appropriate tag on the end
+`docker build -t trigger-remedy-app:1.0 .`
 
-`docker run -p 3030:3001 -i --rm --name my-golang-app-run trigger-remedy-app`
+Run the image, which will be found at localhost:3030
+`docker run -p 3030:3001 -i --rm --name my-golang-app-run trigger-remedy-app:1.0`
 
 `-i` Keep STDIN open even if not attached (--interactive)
 `-p` Publish a container's port(s) to the host (--publish list )
 `--rm` Automatically remove the container when it exits
 `--name` Assign a name to the container
 
-Server will be running on localhost:3030
+**Kubernetes**
+
+`minikube start`
+
+View the dashboard
+`minikube dashboard`
+
+Set docker env to use local docker image(this needs to be set within each terminal)
+`eval $(minikube docker-env)`
+
+Run in minikube
+`kubectl run trigger-remedy-app --image=trigger-remedy-app:1.0`
+
+Create a kubernetes deployment
+`kubectl create deployment trigger-remedy-app --image=trigger-remedy-app:1.0`
+
+Check that it's running
+`kubectl get deployments`
+
+View the pods
+`kubectl get pods`
+
+View cluster events
+`kubectl get events`
+
+View kubectl configuration
+`kubectl config view`
+
+Expose the pod to the public internet as a Service
+`kubectl expose deployment trigger-remedy-app --type=LoadBalancer --port=3001`
+
+View in the browser bia minikube
+`minikube service trigger-remedy-app`

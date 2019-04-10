@@ -7,7 +7,6 @@ RUN go get -d --v ./...
 RUN go install -v ./...
 
 RUN go build -o server
-# RUN /usr/local/go/bin/go build -o app .
 
 ENV PORT=3001
 
