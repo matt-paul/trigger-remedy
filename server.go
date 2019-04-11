@@ -1,12 +1,37 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"os"
+	"text/template"
+
+	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/gorilla/mux"
 )
+
+// Trigger is our struct is it not
+type Trigger struct {
+	ID       int
+	Name     string
+	Category string
+}
+
+func dbConn() (db *sql.DB) {
+	dbDriver := "mysql"
+	dbUser := "root"
+	dbPassword := os.Getenv("MSQL_TRIGGER_PASSWORD")
+	dbName := "triggers"
+	db, err := sql.Open(dbDriver, dbUser+":"+dbPassword+"@/"+dbName)
+	if err != nil {
+		panic(err.Error())
+	}
+	return db
+}
+
+var tmpl = template.Must(template.ParseGlob("form/*"))
 
 func main() {
 	var PORT string
@@ -14,8 +39,7 @@ func main() {
 		PORT = "3001"
 	}
 	r := mux.NewRouter()
-	// If an incoming request URL matches one of the paths, the corresponding handler is
-	// called, passing (http.ResponseWriter, *http.Request) as parameters
+
 	r.HandleFunc("/", HomeHandler)
 	r.HandleFunc("/remedies", RemediesHandler)
 	r.HandleFunc("/triggers", TriggersHandler)
@@ -43,9 +67,28 @@ func RemediesHandler(w http.ResponseWriter, r *http.Request) {
 
 // TriggersHandler handlers the "/triggers" endpoint
 func TriggersHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	x := "These are you're triggers"
-	fmt.Fprintf(w, "Remedies: %v\n", x)
+	db := dbConn()
+	selDB, err := db.Query("SELECT * FROM `Trigger` ORDER BY id DESC")
+	if err != nil {
+		panic(err.Error())
+	}
+	trg := Trigger{}
+	res := []Trigger{}
+	for selDB.Next() {
+		var id int
+		var name, category string
+		err = selDB.Scan(&id, &name, &category)
+		if err != nil {
+			panic(err.Error())
+		}
+		trg.ID = id
+		trg.Name = name
+		trg.Category = category
+		res = append(res, trg)
+	}
+	tmpl.ExecuteTemplate(w, "Index", res)
+	defer db.Close()
+
 }
 
 // RemediesCategoryHandler handles "/remedies{category}"
