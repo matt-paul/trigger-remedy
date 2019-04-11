@@ -2,11 +2,12 @@
 
 - [x] Create a REST API with hardcoded data
 - [x] Run this locally within Minikube
-- [] Add SQL database
+- [x] Add SQL database
 
 **User stories**
 
-- [] As a user, i need to add a 'Trigger' to the app
+- [x] As a user, i need to add a 'Trigger' to the app
+- [x] As a user i need to see all triggers in a list
 - [] As a user, i need to a add a 'Response' to the app, related to one or more triggers.
 
 **How to run this project**
