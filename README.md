@@ -3,6 +3,9 @@
 - [x] Create a REST API with hardcoded data
 - [x] Run this locally within Minikube
 - [x] Add SQL database
+- [] Change response to JSON
+- [] Create deployment for api server
+- [] Create deployment for mysql database
 
 **User stories**
 
@@ -31,13 +34,10 @@ sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machi
 Start the minikube cluster - xhyve specifies that you are using 'Docker for mac' hypervisor
 `minikube start --vm-driver=xhyve`
 
-Set kubernetes cli to use our Minikube cluster
-`kubectl config use-context minikube`
-
 Verify that kubectl can communicate with the cluster
 `kubectl cluster-info`
 
-**Docker**
+**Building the docker image**
 Build the image, with an appropriate tag on the end
 `docker build -t trigger-remedy-app:1.0 .`
 
@@ -51,6 +51,10 @@ Run the image, which will be found at localhost:3030
 
 **Kubernetes**
 
+Set kubernetes cli to use our Minikube cluster
+`kubectl config use-context minikube`
+
+Start the minikube cluster
 `minikube start`
 
 View the dashboard
@@ -82,3 +86,11 @@ Expose the pod to the public internet as a Service
 
 View in the browser bia minikube
 `minikube service trigger-remedy-app`
+
+**MySql**
+
+Run mysql database locally
+`mysql -u root -p`
+
+Export the root user password in your shell
+`export MSQL_TRIGGER_PASSWORD=&^%F**&`
