@@ -23,7 +23,7 @@ var tmpl = template.Must(template.ParseGlob("form/*"))
 // HomeHandler handlers the "/" endpoint
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	x := "world"
+	x := "wow"
 	fmt.Fprintf(w, "Fantastic stuff hello %v\n", x)
 }
 
@@ -77,8 +77,8 @@ func InsertTrigger(w http.ResponseWriter, r *http.Request) {
 
 func dbConn() (db *sql.DB) {
 	dbDriver := "mysql"
-	dbUser := "root"
-	dbPassword := os.Getenv("MSQL_TRIGGER_PASSWORD")
+	dbUser := "username"
+	dbPassword := os.Getenv("MYSQL_TRIGGER_PASSWORD")
 	dbName := "triggers"
 	db, err := sql.Open(dbDriver, dbUser+":"+dbPassword+"@/"+dbName)
 	if err != nil {

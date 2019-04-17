@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/matt-paul/triggerResponse/app/handler"
+	"github.com/matt-paul/triggerRemedy/app/handler"
 
 	_ "github.com/go-sql-driver/mysql"
 )
